@@ -12,7 +12,7 @@ class Usuario(models.Model):
 class Publicacion(models.Model):
 
     user_id = models.ForeignKey(Usuario, null=False, blank=False, on_delete=models.CASCADE)
-    title = models.CharField(blank=True)
+    title = models.CharField(max_length=70, blank=True)
     content = models.CharField(max_length=1000, null=False)
     publication_date = models.DateTimeField(auto_now=True)
     num_reaction = models.PositiveIntegerField()
