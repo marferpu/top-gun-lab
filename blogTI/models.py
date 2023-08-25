@@ -4,16 +4,16 @@ from django.db import models
 class Usuario(models.Model):
 
     fullname = models.CharField(max_length=70)
-    email = models.EmailField(blank=True)
+    email = models.EmailField(null=False)
     country = models.CharField(max_length=70) #falta organizar la parte de selección del pais
-    password = models.CharField(max_length=70)
+    password = models.CharField(max_length=10, null=False)
     registration_date = models.DateTimeField(auto_now=True)
 
 class Publicacion(models.Model):
 
     user_id = models.ForeignKey(Usuario, null=False, blank=False, on_delete=models.CASCADE)
-    title = models.EmailField(blank=True)
-    content = models.CharField(max_length=70)
+    title = models.CharField(blank=True)
+    content = models.CharField(max_length=1000, null=False)
     publication_date = models.DateTimeField(auto_now=True)
     num_reaction = models.PositiveIntegerField()
     num_repost = models.PositiveIntegerField()
