@@ -1,0 +1,12 @@
+{% extends 'blogTI/templates/base.html' %}
+
+{% block content %}
+
+    {% for comment in comments %}
+        <div class="comment">
+            <h2>{{ comment.usuario }}</h2>
+            <p>{{ comment.comment }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

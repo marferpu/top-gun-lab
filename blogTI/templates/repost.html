@@ -1,0 +1,11 @@
+{% extends 'blogTI/templates/base.html' %}
+
+
+{% block content %}
+    {% for repost in reposts %}
+        <div class="repost">
+            <h2>{{ repost.usuario }}</h2>
+            <p>{{ repost.publicacion }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

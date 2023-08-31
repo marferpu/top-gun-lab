@@ -1,0 +1,29 @@
+{% extends 'blogTI/templates/base.html' %}
+
+    {% block content %}
+   
+
+    {% for post in posts %}
+    <div class="card-product">
+        <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
+        <div class="card-product-infos">
+          <h2>{% post.title %}</h2>
+          <p>{% post.content %}</p>
+          <p><span> {% post.publication_date %} </span></p>
+          <div class="notification-actions">
+            <a href="{% 
+                {% block content %}
+
+                {% endblock %}
+                 %}"><i class="fas fa-pencil-alt">
+                
+            </i></a>
+          </div>
+        </div>
+        </div>
+    </div>
+      <br>      
+    {% endfor%}
+   
+
+    {% endblock %}
