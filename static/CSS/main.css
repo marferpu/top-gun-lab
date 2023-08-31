@@ -1,0 +1,10 @@
+@import './post.css';
+@import './user.css';
+@import './repost.css';
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: radial-gradient(circle at 78.78% 25.85%, #71ae8a 0, #68af91 5%, #60af98 10%, #59b09f 15%, #52b0a7 20%, #4cb0ae 25%, #48b0b5 30%, #46afbc 35%, #47aec2 40%, #4aadc7 45%, #50accc 50%, #58abd0 55%, #61a9d3 60%, #6ba7d5 65%, #76a5d7 70%, #81a3d7 75%, #8ba0d6 80%, #969ed4 85%, #a09bd2 90%, #a999ce 95%, #b296ca 100%);;
+}

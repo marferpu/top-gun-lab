@@ -1,0 +1,10 @@
+/* static/css/blog.css */
+.repost {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.repost h2 {
+    margin-top: 0;
+}
