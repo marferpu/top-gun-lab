@@ -149,3 +149,5 @@ CACHES = {
     }
 }
 
+
+AUTH_USER_MODEL = 'blogTI.Usuario'
