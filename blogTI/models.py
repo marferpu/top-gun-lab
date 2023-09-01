@@ -1,13 +1,9 @@
+# models.py
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
-class Usuario(models.Model):
-
-    fullname = models.CharField(max_length=70)
-    email = models.EmailField(null=False)
-    country = models.CharField(max_length=70) #falta organizar la parte de selección del pais
-    password = models.CharField(max_length=10, null=False)
-    registration_date = models.DateTimeField(auto_now=True)
+class Usuario(AbstractUser):
+    country = models.CharField(max_length=50)
 
 class Publicacion(models.Model):
 
@@ -18,6 +14,9 @@ class Publicacion(models.Model):
     num_reaction = models.PositiveIntegerField()
     num_repost = models.PositiveIntegerField()
     num_comments = models.PositiveIntegerField()
+    def __str__(self) -> str:
+        fila = "Post title: " + self.title +",  " +"By: " + self.user_id.fullname
+        return fila
 
 class Etiqueta(models.Model):
 

@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestión de Cursos {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Edición de Publicación</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="editarPublicacion/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="autor" name="autor" value="{{Publicacion.user_id.fullname}}" class="form-control" placeholder="Autor"
+                           readonly required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="title" name="title" value="{{Publicacion.title}}" class="form-control" placeholder="Title"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="content" name="content" value="{{Publicacion.content}}" class="form-control" placeholder="Content"
+                            maxlength="50" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
