@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Usuario, Publicacion, Etiqueta, Reposteo, Comentario
-from .serializers import UsuarioSerializer, PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer, ComentarioSerializer, UserSerializer
+from .models import Publicacion, Etiqueta, Reposteo, Comentario
+from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer, ComentarioSerializer, UserSerializer
 from django.http import HttpResponse
 from django.core.cache import cache
 from django.contrib import messages
@@ -23,22 +23,21 @@ def login(request):
     password = request.POST.get('password')
 
     try:
-        user = User.objects.get(username='username')
+        user = User.objects.get(username=username)
     except User.DoesNotExist:
         return Response('Usuario inválido')
     
     pwd_valid = check_password(password, user.password)
     if not pwd_valid:
         return Response('contraseña inválida')
-    token, created = Token.objects.get_or_create.create(user=user)
+    token, created = Token.objects.get_or_create(user=user)
     print(token.key)
     return Response(token.key)
 
 
-
-class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 class PublicacionViewSet(viewsets.ModelViewSet):
     queryset = Publicacion.objects.all()
