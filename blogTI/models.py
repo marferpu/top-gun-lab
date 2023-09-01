@@ -18,6 +18,9 @@ class Publicacion(models.Model):
     num_reaction = models.PositiveIntegerField()
     num_repost = models.PositiveIntegerField()
     num_comments = models.PositiveIntegerField()
+    def __str__(self) -> str:
+        fila = "Post title: " + self.title +",  " +"By: " + self.user_id.fullname
+        return fila
 
 class Etiqueta(models.Model):
 
