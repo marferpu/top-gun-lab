@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestión de Blog {% endblock %}
+
+{% block body %}
+<div class="row">
+    
+    <div class="col-sm-12 col-md-6 col-lg-10 col-xl-10">
+        <h1>Listado de Publicaciones</h1>
+        <div class="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>By</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Date</th>
+                        <th>N.Reaction</th>
+                        <th>NRepost</th>
+                        <th>N.Comments</th>
+                        <th colspan="2">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in Publicacion %}
+                    <tr>
+                        
+                        <td>{{c.user_id.username}}</td>
+                        <td>{{c.title}}</td>
+                        <td>{{c.content}}</td>
+                        <td>{{c.publication_date}}</td>
+                        <td>{{c.num_reaction}}</td>
+                        <td>{{c.num_repost}}</td>
+                        <td>{{c.num_comments}}</td>
+                        <td><a href="edicionPublicacion/{{c.id}}" class="btn btn-info">Editar</a></td>
+                        <td><a href="eliminarPublicacion/{{c.id}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

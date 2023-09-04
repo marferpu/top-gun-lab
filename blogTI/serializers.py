@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from .models import Usuario, Publicacion, Etiqueta, Reposteo, Comentario
+from .models import Publicacion, Etiqueta, Reposteo, Comentario
+from django.contrib.auth.models import User
 
-
-
-
-class UsuarioSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Usuario
-        fields = '__all__'
+        model = User
+        fields = ['id', 'username', 'password', 'email']
+
 
 class PublicacionSerializer(serializers.ModelSerializer):
     class Meta:
