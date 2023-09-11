@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.views import APIView
+
 from .models import Publicacion, Etiqueta, Reposteo, Comentario
 from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer, ComentarioSerializer, UserSerializer
 from django.http import HttpResponse
@@ -16,6 +18,9 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
+
+def inicio(request):
+    return render(request, "inicio.html")
 
 @api_view(['POST'])
 def login(request):
@@ -55,7 +60,20 @@ class EtiquetaViewSet(viewsets.ModelViewSet):
     queryset = Etiqueta.objects.all()
     serializer_class = EtiquetaSerializer
 
-#implementación de redis
+class BlogListView(APIView):
+    def get(self, request, *args, **kwargs):
+        posts = Publicacion.objects.all()[0:5]
+        serializer = PublicacionSerializer(posts, many=True)
+        return Response(serializer.data)
+
+class PostDetailView(APIView):
+    def get(self, request, post_slug, *args, **kwargs):
+        post = Publicacion.objects.get(slug=post_slug)
+        serializer = PublicacionSerializer(post)
+        return Response(serializer.data)
+
+
+# #implementación de redis
 def prueba_cache(request):
 
     cache.set("my_key", "Hello World", 600)
@@ -64,7 +82,7 @@ def prueba_cache(request):
 
     return HttpResponse("La cache fue creada y consultada")
 
-# prueba crud
+# # prueba crud
 
 def home(request):
     publicacionListados = Publicacion.objects.all()
@@ -72,17 +90,17 @@ def home(request):
     return render(request, "gestionPost.html", {"Publicacion": publicacionListados})
 
 
-def registrarPublicacion(request):
-    user_id = request.POST['user_id']
-    title = request.POST['title']
-    content = request.POST['content']
+# def registrarPublicacion(request):
+#     user_id = request.POST['user_id']
+#     title = request.POST['title']
+#     content = request.POST['content']
 
-    publicacion = Publicacion.objects.create(
-        user_id=user_id,title=title, content=content
-        #, num_reaction=num_reaction, num_repost=num_repost,num_comments=num_comments
-         )
-    messages.success(request, '¡Publicación registrada!')
-    return redirect('/blogTI')
+#     publicacion = Publicacion.objects.create(
+#         user_id=user_id,title=title, content=content
+#         #, num_reaction=num_reaction, num_repost=num_repost,num_comments=num_comments
+#          )
+#     messages.success(request, '¡Publicación registrada!')
+#     return redirect('/blogTI')
 
 
 def edicionPublicacion(request, id):
@@ -97,9 +115,9 @@ def editarPublicacion(request, id):
 
     
 
-    messages.success(request, '¡Publicación actualizada!')
+#     messages.success(request, '¡Publicación actualizada!')
 
-    return redirect('/blogTI')
+#     return redirect('/blogTI')
 
 
 def eliminarPublicacion(request, id):
