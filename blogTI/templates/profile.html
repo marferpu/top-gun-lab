@@ -1,22 +1,20 @@
-{% extends "./base.html" %}
+{% extends "base.html" %}
 
-{% block title %} Profile User.name {% endblock %}
+
+{% block title %} Perfil de {{ username }} {% endblock %}
 
 {% block body %}
-
-{% block content %}
-    {% for user in users %}
+    <!-- {% for user in users %} -->
         <div class="user">
-            <h2>{{ user.username }}</h2>
-            <p>{{ user.email }}</p>
+            <h2>Nombre de usuario: {{ username }}</h2>
+            <p>Correo electrónico: {{ email }}</p>
         </div>
-    {% endfor %}
-{% endblock %}
+    <!-- {% endfor %} -->
 
 <div class="profile">
     <img src='' alt="photo" class="avatar-large"/>
     <div class="profile-content">
-      <p><small>9th January</small></p>
+      <p><small>Activo desde {{date_joined}}</small></p>
       <p>Lorem ipsum dolor sit amet, <strong>consectetur</strong> adipisicing elit.</p>
     </div>
   

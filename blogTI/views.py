@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
+from django.contrib.auth.decorators import login_required
 
 from .models import Publicacion, Etiqueta, Reposteo, Comentario
 from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer,ComentarioSerializer, UserSerializer
@@ -72,6 +73,46 @@ class PostDetailView(APIView):
         serializer = PublicacionSerializer(post)
         return Response(serializer.data)
 
+@api_view(['POST'])
+def crear_publicacion(request):
+    serializer = PublicacionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return redirect('/blogTI')
+    
+@api_view(['PUT'])
+def editar_publicacion(request, id):
+    usuario_autenticado = request.user
+    try:
+        post = Publicacion.objects.get(id=post.id)
+    except Publicacion.DoesNotExist:
+        return Response({'message': 'Publicación no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+    if post.user_id != usuario_autenticado:
+        return Response({'message': 'No tienes permiso para editar esta publicación'}, status=status.HTTP_403_FORBIDDEN)
+
+    serializer = PublicacionSerializer(post, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return render(request, 'edicionPublicacion.html', {"mensaje": "Publicación editada exitosamente"}) 
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def eliminar_publicacion(request, id):
+    usuario_autenticado = request.user  
+    try:
+        post = Publicacion.objects.get(id=post.id)
+    except Publicacion.DoesNotExist:
+        return Response({'message': 'Publicación no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+    if post.user_id != usuario_autenticado:
+        return Response({'message': 'No tienes permiso para eliminar esta publicación'}, status=status.HTTP_403_FORBIDDEN)
+    post.delete()
+    # return Response(status=status.HTTP_204_NO_CONTENT)
+    return redirect('/blogTI')
 
 # #implementación de redis
 def prueba_cache(request):
@@ -89,7 +130,21 @@ def home(request):
     messages.success(request, '¡Publicaciones listadas!')
     return render(request, "gestionPost.html", {"Publicacion": publicacionListados})
 
-
+# @login_required
+# def profile(request):
+#     user = request.user
+    
+#     username = user.username
+#     email = user.email
+#     date_joined = user.date_joined
+#     # country = user.country
+#     context = {
+#         'username': username,
+#         'email': email,
+#         'date_joined': date_joined,
+#         # 'country': country
+#     }  
+#     return render(request, 'profile.html', context)
 # def registrarPublicacion(request):
 #     user_id = request.POST['user_id']
 #     title = request.POST['title']
@@ -103,27 +158,6 @@ def home(request):
 #     return redirect('/blogTI')
 
 
-def edicionPublicacion(request, id):
-    publicacion = Publicacion.objects.get(id=id)
-    return render(request, "edicionPublicacion.html", {"Publicacion": publicacion})
-
-
-def editarPublicacion(request, id):
-    #user_id = request.POST['user_id']
-    title = request.POST['title']
-    content = request.POST['content']
-
-    
-
 #     messages.success(request, '¡Publicación actualizada!')
 
 #     return redirect('/blogTI')
-
-
-def eliminarPublicacion(request, id):
-    publicacion = Publicacion.objects.get(id=id)
-    publicacion.delete()
-
-    messages.success(request, '¡Publicación eliminada!')
-
-    return redirect('/blogTI')

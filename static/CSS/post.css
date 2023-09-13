@@ -1,5 +1,6 @@
 .card-product {
     overflow: hidden;
+    display: flex;
     /* height: 120px; */
     background: white;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -29,6 +30,13 @@
   
   .card-product .card-product-infos {
     padding: 16px;
+  }
+
+  .buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 5px;
   }
 
   /* ************************************************ */

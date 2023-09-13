@@ -16,8 +16,13 @@ router.register(r'comentarios', ComentarioViewSet)
 urlpatterns = [
     path('', views.home),
     path('', include(router.urls)),
-    path('posts/', BlogListView.as_view()),
-    path('posts/<post_slug>', PostDetailView.as_view()),
+    # path('posts/', BlogListView.as_view()),
+    # path('posts/<post_slug>', PostDetailView.as_view()),
+    # path('publicaciones/<id>', views.editar_publicacion, name='editar_publicacion'),
+    # path('publicaciones/<id>', views.eliminar_publicacion, name='eliminar_publicacion'),
+    # path('crear_publicacion/', views.crear_publicacion, name='crear_publicacion'),
+
+    # path('profile/', views.profile, name='profile'),
 
     path('prueba/', prueba_cache, name='prueba_cache'), #ruta de la caché, http://localhost:8000/blogTI/prueba/
     #path('registrarPublicacion/', views.registrarPublicacion),
