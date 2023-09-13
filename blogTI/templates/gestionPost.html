@@ -3,11 +3,11 @@
 {% block title %} Gestión de Blog {% endblock %}
 
 {% block body %}
-<div class="row">
+<div class="">
     
-    <div class="col-sm-12 col-md-6 col-lg-10 col-xl-10">
+    <!-- <div class="col-sm-12 col-md-6 col-lg-10 col-xl-10"> -->
         <h1>Listado de Publicaciones</h1>
-        <div class="table-responsive py-2">
+        <!-- <div class="table-responsive py-2">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -38,7 +38,31 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div> -->
+    <!-- </div> -->
+    {% for post in Publicacion %}
+    <div class="card-product">
+        <img src="https://cdn.pixabay.com/photo/2023/09/10/00/49/lovebird-8244066_1280.jpg" />
+        <div class="card-product-infos">
+          <h2>{{post.title }}</h2>
+          <p>{{ post.content }}</p>
+          <p><span> {{ post.publication_date }} </span></p>
+        <div class="buttons-container">
+            {% if user.is_authenticated and user == post.user_id %}
+                <a href="editar_publicacion/{{post.id}}" class="btn btn-info" id="editar-btn">Editar</a>
+                <a href="eliminarPublicacion/{{post.id}}" class="btn btn-danger btnEliminacion">Eliminar</a>
+            {% endif %}
         </div>
+        </div>
+          <div class="notification-actions">
+            <a href="#"><i class="fas fa-pencil-alt">
+
+            </i></a>
+          </div>
+        <!-- </div> -->
     </div>
+      <br>      
+    {% endfor%}
 </div>
+
 {% endblock %}

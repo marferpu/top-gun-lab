@@ -1,6 +1,9 @@
 from rest_framework import viewsets
+from rest_framework.views import APIView
+from django.contrib.auth.decorators import login_required
+
 from .models import Publicacion, Etiqueta, Reposteo, Comentario
-from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer, ComentarioSerializer, UserSerializer
+from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer,ComentarioSerializer, UserSerializer
 from django.http import HttpResponse
 from django.core.cache import cache
 from django.contrib import messages
@@ -16,6 +19,9 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
+
+def inicio(request):
+    return render(request, "inicio.html")
 
 @api_view(['POST'])
 def login(request):
@@ -55,52 +61,58 @@ class EtiquetaViewSet(viewsets.ModelViewSet):
     queryset = Etiqueta.objects.all()
     serializer_class = EtiquetaSerializer
 
-#implementación de redis
-def prueba_cache(request):
+class BlogListView(APIView):
+    def get(self, request, *args, **kwargs):
+        posts = Publicacion.objects.all()
+        serializer = PublicacionSerializer(posts, many=True)
+        return Response(serializer.data)
 
-    cache.set("my_key", "Hello World", 600)
+class PostDetailView(APIView):
+    def get(self, request, post_slug, *args, **kwargs):
+        post = Publicacion.objects.get(slug=post_slug)
+        serializer = PublicacionSerializer(post)
+        return Response(serializer.data)
 
-    value = cache.get("my_key")
-
-    return HttpResponse("La cache fue creada y consultada")
-
-# prueba crud
-
-def home(request):
-    publicacionListados = Publicacion.objects.all()
-    messages.success(request, '¡Publicaciones listadas!')
-    return render(request, "gestionPost.html", {"Publicacion": publicacionListados})
-
-
-def registrarPublicacion(request):
-    user_id = request.POST['user_id']
-    title = request.POST['title']
-    content = request.POST['content']
-
-    publicacion = Publicacion.objects.create(
-        user_id=user_id,title=title, content=content
-        #, num_reaction=num_reaction, num_repost=num_repost,num_comments=num_comments
-         )
-    messages.success(request, '¡Publicación registrada!')
+@api_view(['POST'])
+def crear_publicacion(request):
+    serializer = PublicacionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return redirect('/blogTI')
 
-
-def edicionPublicacion(request, id):
-    publicacion = Publicacion.objects.get(id=id)
-    return render(request, "edicionPublicacion.html", {"Publicacion": publicacion})
-
-
-def editarPublicacion(request, id):
-    #user_id = request.POST['user_id']
-    title = request.POST['title']
-    content = request.POST['content']
-
+@api_view(['PUT'])
+def editar_publicacion(request, id):
+    usuario_autenticado = request.user
+    try:
+        post = Publicacion.objects.get(id=post.id)
+    except Publicacion.DoesNotExist:
+        return Response({'message': 'Publicación no encontrada'}, status=status.HTTP_404_NOT_FOUND)
     
+    if post.user_id != usuario_autenticado:
+        return Response({'message': 'No tienes permiso para editar esta publicación'}, status=status.HTTP_403_FORBIDDEN)
 
-    messages.success(request, '¡Publicación actualizada!')
+    serializer = PublicacionSerializer(post, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return render(request, 'edicionPublicacion.html', {"mensaje": "Publicación editada exitosamente"}) 
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    return redirect('/blogTI')
+# @api_view(['DELETE'])
+# def eliminar_publicacion(request, id):
+#     usuario_autenticado = request.user  
+#     try:
+#         post = Publicacion.objects.get(id=post.id)
+#     except Publicacion.DoesNotExist:
+#         return Response({'message': 'Publicación no encontrada'}, status=status.HTTP_404_NOT_FOUND)
 
+#     if post.user_id != usuario_autenticado:
+#         return Response({'message': 'No tienes permiso para eliminar esta publicación'}, status=status.HTTP_403_FORBIDDEN)
+#     post.delete()
+#     # return Response(status=status.HTTP_204_NO_CONTENT)
+#     return redirect('/blogTI')
 
 def eliminarPublicacion(request, id):
     publicacion = Publicacion.objects.get(id=id)
@@ -109,3 +121,51 @@ def eliminarPublicacion(request, id):
     messages.success(request, '¡Publicación eliminada!')
 
     return redirect('/blogTI')
+
+# #implementación de redis
+def prueba_cache(request):
+
+    cache.set("my_key", "Hello World", 600)
+
+    value = cache.get("my_key")
+
+    return HttpResponse("La cache fue creada y consultada")
+
+# # prueba crud
+
+def home(request):
+    publicacionListados = Publicacion.objects.all()
+    messages.success(request, '¡Publicaciones listadas!')
+    return render(request, "gestionPost.html", {"Publicacion": publicacionListados})
+
+# @login_required
+# def profile(request):
+#     user = request.user
+    
+#     username = user.username
+#     email = user.email
+#     date_joined = user.date_joined
+#     # country = user.country
+#     context = {
+#         'username': username,
+#         'email': email,
+#         'date_joined': date_joined,
+#         # 'country': country
+#     }  
+#     return render(request, 'profile.html', context)
+# def registrarPublicacion(request):
+#     user_id = request.POST['user_id']
+#     title = request.POST['title']
+#     content = request.POST['content']
+
+#     publicacion = Publicacion.objects.create(
+#         user_id=user_id,title=title, content=content
+#         #, num_reaction=num_reaction, num_repost=num_repost,num_comments=num_comments
+#          )
+#     messages.success(request, '¡Publicación registrada!')
+#     return redirect('/blogTI')
+
+
+#     messages.success(request, '¡Publicación actualizada!')
+
+#     return redirect('/blogTI')

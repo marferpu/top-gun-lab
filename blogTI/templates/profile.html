@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block title %} Perfil de {{ username }} {% endblock %}
+
+{% block body %}
+    <!-- {% for user in users %} -->
+        <div class="user">
+            <h2>Nombre de usuario: {{ username }}</h2>
+            <p>Correo electrónico: {{ email }}</p>
+        </div>
+    <!-- {% endfor %} -->
+
+<div class="profile">
+    <img src='' alt="photo" class="avatar-large"/>
+    <div class="profile-content">
+      <p><small>Activo desde {{date_joined}}</small></p>
+      <p>Lorem ipsum dolor sit amet, <strong>consectetur</strong> adipisicing elit.</p>
+    </div>
+  
+    <div class="profile-actions">
+      <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+      <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+    </div>
+  </div>
+
+
+
+{% endblock %}

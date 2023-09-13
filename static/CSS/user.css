@@ -1,0 +1,10 @@
+.user {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.user h2 {
+    margin-top: 0;
+}
+  
