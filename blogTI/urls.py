@@ -1,7 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import UserViewSet, PublicacionViewSet, EtiquetaViewSet, ReposteoViewSet, ComentarioViewSet
-from .views import prueba_cache, BlogListView, PostDetailView
+from .views import PostViewSet, BlogListView, PostDetailView
+from .views import prueba_cache 
 from . import views
 
 app_name="blogTI"
