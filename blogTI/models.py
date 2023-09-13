@@ -56,16 +56,7 @@ class Publicacion(models.Model):
     def __str__(self):
         return "Post title: " + self.title + ", By: " + self.user_id.username
 
-def nueva_url(instance, url=None):
-    slug = slugify(instance.content)
-    if url is not None:
-        slug = url
-    return slug
 
-def url_ok(sender,instance, *args, **kwargs):
-    if not instance.slug:
-        instance.slug = nueva_url(instance)
-pre_save.connect(url_ok, sender=Publicacion)
 
 class Etiqueta(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)

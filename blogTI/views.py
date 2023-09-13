@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 
 from .models import Publicacion, Etiqueta, Reposteo, Comentario
-from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer, ComentarioSerializer, UserSerializer
+from .serializers import PublicacionSerializer, EtiquetaSerializer, ReposteoSerializer,ComentarioSerializer, UserSerializer
 from django.http import HttpResponse
 from django.core.cache import cache
 from django.contrib import messages
@@ -62,7 +62,7 @@ class EtiquetaViewSet(viewsets.ModelViewSet):
 
 class BlogListView(APIView):
     def get(self, request, *args, **kwargs):
-        posts = Publicacion.objects.all()[0:5]
+        posts = Publicacion.objects.all()
         serializer = PublicacionSerializer(posts, many=True)
         return Response(serializer.data)
 
