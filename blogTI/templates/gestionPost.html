@@ -49,8 +49,8 @@
           <p><span> {{ post.publication_date }} </span></p>
         <div class="buttons-container">
             {% if user.is_authenticated and user == post.user_id %}
-                <a href="#" class="btn " id="editar-btn">Editar</a>
-                <a href="#" class="btn btnEliminacion" id="eliminar-btn">Eliminar</a>
+                <a href="editar_publicacion/{{post.id}}" class="btn btn-info" id="editar-btn">Editar</a>
+                <a href="eliminarPublicacion/{{post.id}}" class="btn btn-danger btnEliminacion">Eliminar</a>
             {% endif %}
         </div>
         </div>

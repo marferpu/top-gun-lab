@@ -81,7 +81,7 @@ def crear_publicacion(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return redirect('/blogTI')
-    
+
 @api_view(['PUT'])
 def editar_publicacion(request, id):
     usuario_autenticado = request.user
@@ -100,18 +100,26 @@ def editar_publicacion(request, id):
     return render(request, 'edicionPublicacion.html', {"mensaje": "Publicación editada exitosamente"}) 
     # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])
-def eliminar_publicacion(request, id):
-    usuario_autenticado = request.user  
-    try:
-        post = Publicacion.objects.get(id=post.id)
-    except Publicacion.DoesNotExist:
-        return Response({'message': 'Publicación no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+# @api_view(['DELETE'])
+# def eliminar_publicacion(request, id):
+#     usuario_autenticado = request.user  
+#     try:
+#         post = Publicacion.objects.get(id=post.id)
+#     except Publicacion.DoesNotExist:
+#         return Response({'message': 'Publicación no encontrada'}, status=status.HTTP_404_NOT_FOUND)
 
-    if post.user_id != usuario_autenticado:
-        return Response({'message': 'No tienes permiso para eliminar esta publicación'}, status=status.HTTP_403_FORBIDDEN)
-    post.delete()
-    # return Response(status=status.HTTP_204_NO_CONTENT)
+#     if post.user_id != usuario_autenticado:
+#         return Response({'message': 'No tienes permiso para eliminar esta publicación'}, status=status.HTTP_403_FORBIDDEN)
+#     post.delete()
+#     # return Response(status=status.HTTP_204_NO_CONTENT)
+#     return redirect('/blogTI')
+
+def eliminarPublicacion(request, id):
+    publicacion = Publicacion.objects.get(id=id)
+    publicacion.delete()
+
+    messages.success(request, '¡Publicación eliminada!')
+
     return redirect('/blogTI')
 
 # #implementación de redis

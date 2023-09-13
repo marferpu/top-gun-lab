@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import UserViewSet, PublicacionViewSet, EtiquetaViewSet, ReposteoViewSet, ComentarioViewSet
 from .views import PublicacionViewSet, BlogListView, PostDetailView
-from .views import prueba_cache 
+from .views import prueba_cache
 from . import views
 
 app_name="blogTI"
@@ -14,8 +14,11 @@ router.register(r'reposteos', ReposteoViewSet)
 router.register(r'comentarios', ComentarioViewSet)
 
 urlpatterns = [
+    path('login', views.login),
     path('', views.home),
     path('', include(router.urls)),
+    path('eliminarPublicacion/<id>', views.eliminarPublicacion),
+    path('editar_publicacion/<id>', views.editar_publicacion),
     # path('posts/', BlogListView.as_view()),
     # path('posts/<post_slug>', PostDetailView.as_view()),
     # path('publicaciones/<id>', views.editar_publicacion, name='editar_publicacion'),
@@ -29,5 +32,5 @@ urlpatterns = [
     # path('edicionPublicacion/<id>', views.edicionPublicacion),
     # path('editarPublicacion/<id>', views.editarPublicacion),
     # path('eliminarPublicacion/<id>', views.eliminarPublicacion),
-    path('login', views.login)
+    
 ]
